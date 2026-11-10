@@ -42,15 +42,15 @@ npx wrangler deploy  # publishes to Cloudflare (only when the owner says so)
 
 ## Current state (2026-11-09)
 
-- The app is functional. `npm test` passes 7/7 and `npm run test:e2e` passes 16/16.
-- **First unslop pass is done (uncommitted at time of writing).** It used the `unslop` skill (the user-level one at `~/.claude/skills/unslop`; `.claude/skills/unslop/SKILL.md` in this repo is an empty stub the owner plans to fill). The direction was:
+- The app is functional. `npm test` passes 7/7 and `npm run test:e2e` passes 19/19. Everything is committed and pushed to `origin/main`. It hasn't been deployed yet.
+- **First unslop pass is done.** It used the `unslop` skill (the user-level one at `~/.claude/skills/unslop`; `.claude/skills/unslop/SKILL.md` in this repo is an empty stub the owner plans to fill). The direction was:
   - **World:** a real Linux session. No macOS traffic lights.
   - **Character:** exact, dry, a little playful.
   - **Moment:** the home screen is `neofetch` output (Tux, info rows, ANSI swatches), followed by an `ls -l`-style directory list.
   - **Signature:** the prompt line above each output. Sections have no eyebrow labels.
   - **Color:** green is only for the prompt user, the active item, the current role and neofetch keys. Blue is for directories and paths. There are three text roles: `--bright`, `--text` and `--muted`.
   - **Chrome:** three layers (top bar, window, status line). All the "curious" taglines were cut.
-  - **Spacing and type:** everything is on a 4px grid, the smallest text is 11px, and weights are 400 and 500.
+  - **Spacing and type:** everything is on a 4px grid. Type is Departure Mono at 11 / 22 / 33 / 44px, in one weight (see Font above).
   - **Motion** (inspired by toss.im, translated into terminal behavior):
     - New output prints in block by block (`.print-in`, a 28ms stagger with a 4px rise; the selector list is `printLines` in `App.jsx`).
     - Clicking a folder types the command into the prompt before running it (`typeAndRun`). Any key press or manual edit cancels it.
@@ -60,20 +60,18 @@ npx wrangler deploy  # publishes to Cloudflare (only when the owner says so)
   - **Art gallery:** the 10 pieces were cropped out of the owner's portfolio PDF into `public/art/NN.webp` (full) and `NN-thumb.webp` (192px tall). They're listed in `artworks` in `content.js`; the alt text describes the subject only, and media per piece is unknown. The Art hobby opens `ArtViewer`, a modal `<dialog>` with a snap-scrolling track, previous/next buttons, a thumbnail strip, and arrow keys/Esc. They're meant to be public.
   - **Contact:** GitHub, LinkedIn and Substack only. No email and no résumé, on purpose.
   - **Copy:** it's dry on purpose. Headings are plain ("Experience"), and the only jokes are the shell ones (the sudo message, neofetch). Don't add slogans back.
-- The project used to live in `pweb/terminal-portfolio/` and was just flattened into the repo root. The two `.gitignore` files were merged.
-- **The README is stale after the flattening.** It still says `cd terminal-portfolio` and "run from `terminal-portfolio/`", and the Cloudflare Pages table lists `terminal-portfolio` as the root directory. Those should now point at the repo root. It also documents both Pages and Workers. Workers is the chosen path.
-- **Main ongoing work: "un-AI-slopping" the site.** The owner thinks the current copy and design read as generic and AI-generated, and wants them to sound and look like a real person made them. A project skill for this is coming, so check `.claude/skills/` (or wherever it lands) and follow it when it exists. Until then, apply these working guidelines:
+- The project used to live in `pweb/terminal-portfolio/` and was flattened into the repo root. The README is up to date and documents only the Workers deploy.
+- **Keep the site un-slopped.** The owner doesn't want it to read as generic or AI-generated. Follow the `unslop` skill when it's available, and apply these guidelines:
   - Copy in `src/content.js` and the README: drop filler, marketing tone, em-dash-heavy phrasing, and triads like "from X and Y to Z". Keep the facts.
   - UI: avoid generic gradients, glows, and over-decorated cards. Lean into an authentic Linux terminal/desktop feel.
   - Don't invent résumé facts. Every claim must come from the owner or what's already in `src/content.js`. The site deliberately has **no résumé download**, so don't add one back.
 
 ## Next steps
 
-1. Have the owner review the unslop pass, then commit it.
-2. Fix the stale `terminal-portfolio` paths in the README, and decide whether to drop the Cloudflare Pages section.
-3. Other owner-requested changes (TBD; ask the owner).
-4. Run `npm test` and `npm run test:e2e`, and update the tests if UI text changes.
-5. Deploy with `npm run build && npx wrangler deploy`, but only when the owner explicitly asks.
+1. Other owner-requested changes (TBD; ask the owner).
+2. Decide whether `public/portfoliosite.pdf` stays. The gallery replaced it, and nothing links to it now.
+3. Run `npm test` and `npm run test:e2e`, and update the tests if UI text changes.
+4. Deploy with `npm run build && npx wrangler deploy`, but only when the owner explicitly asks.
 
 ## Conventions
 
