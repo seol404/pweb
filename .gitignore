@@ -31,5 +31,3 @@ yarn-error.log*
 .env
 .env.*
 
-# resume has phone number; keep out of git until a phone-free version exists
-/public/resume.pdf

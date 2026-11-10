@@ -5,18 +5,19 @@
 export const initialState = Object.freeze({ cwd: '~', theme: 'dark' });
 
 const folders = [
-  { name: 'christina', type: 'about', description: 'A little about me' },
-  { name: 'experience', type: 'experience', description: 'Where I have worked' },
-  { name: 'projects', type: 'projects', description: 'Things I have built' },
-  { name: 'skills', type: 'skills', description: 'Tools of the trade' },
-  { name: 'education', type: 'education', description: 'Learning at UT Austin' },
-  { name: 'contact', type: 'contact', description: 'Find me elsewhere' },
+  { name: 'christina', type: 'about', description: 'About me' },
+  { name: 'experience', type: 'experience', description: 'Cloudflare, Bloomberg, CrowdStrike' },
+  { name: 'leadership', type: 'leadership', description: 'WiCyS Austin, ISSS, HASH' },
+  { name: 'projects', type: 'projects', description: 'Vulnerability detection dataset' },
+  { name: 'skills', type: 'skills', description: 'Languages and tools' },
+  { name: 'education', type: 'education', description: 'UT Austin, B.S. Computer Science' },
+  { name: 'hobbies', type: 'hobbies', description: 'Skating, running, singing, minesweeper, art' },
+  { name: 'contact', type: 'contact', description: 'GitHub, LinkedIn, Substack' },
 ];
 
 export const directoryEntries = Object.freeze([
   ...folders.map(({ name, description }) => ({ name, path: `/${name}`, kind: 'directory', description })),
-  { name: 'README.md', path: '/README.md', kind: 'file', description: 'Welcome to my corner of the internet' },
-  { name: 'resume.pdf', path: '/resume.pdf', kind: 'file', description: 'Download my résumé' },
+  { name: 'README.md', path: '/README.md', kind: 'file', description: 'Start here' },
 ]);
 
 export const commandHelp = Object.freeze([
@@ -24,9 +25,9 @@ export const commandHelp = Object.freeze([
   { command: 'cat [path]', description: 'Read a section or its README.md.' },
   { command: 'cd [path]', description: 'Change directories. cd .. goes back; cd returns home.' },
   { command: 'pwd', description: 'Print the current directory.' },
-  { command: 'whoami', description: 'Meet Christina.' },
+  { command: 'whoami', description: 'About Christina.' },
   { command: 'neofetch', description: 'Show the system profile.' },
-  { command: 'open [link]', description: 'Show a link: github, linkedin, resume, or email.' },
+  { command: 'open [link]', description: 'Show a link: github, linkedin, or substack.' },
   { command: 'theme [dark|light]', description: 'Switch the terminal theme.' },
   { command: 'history', description: 'Show commands from this session.' },
   { command: 'clear', description: 'Clear the terminal. Ctrl+L works too.' },
@@ -36,7 +37,7 @@ export const commandHelp = Object.freeze([
 ]);
 
 const commands = [...commandHelp.map(({ command }) => command.split(' ')[0]), 'sudo'];
-const links = ['github', 'linkedin', 'resume', 'email'];
+const links = ['github', 'linkedin', 'substack'];
 const text = (value = '') => ({ output: { type: 'text', text: value } });
 const error = (value) => ({ output: { type: 'error', text: value } });
 
@@ -59,7 +60,6 @@ export function resolvePath(path = '~', cwd = '~') {
 function nodeAt(path) {
   if (path === '/') return { kind: 'directory', type: 'directory' };
   if (path === '/README.md') return { kind: 'file', type: 'home' };
-  if (path === '/resume.pdf') return { kind: 'file', type: 'link', target: 'resume' };
   const folder = folders.find(({ name }) => path === `/${name}` || path === `/${name}/README.md`);
   if (!folder) return null;
   return { kind: path.endsWith('/README.md') ? 'file' : 'directory', type: folder.type };
@@ -163,12 +163,11 @@ export function executeCommand(input, { cwd = '~', theme = 'dark', history = [] 
       if (args.length !== 1 || !['dark', 'light'].includes(args[0])) return error('theme: choose dark or light.');
       return { theme: args[0], ...text(`Theme set to ${args[0]}.`) };
     case 'open':
-      if (args.length !== 1) return error('Usage: open github | linkedin | resume | email');
-      if (args[0] === '/resume.pdf' || args[0] === 'resume.pdf') return { output: { type: 'link', target: 'resume' } };
-      if (!links.includes(args[0])) return error(`open: unknown link: ${args[0]}. Choose github, linkedin, resume, or email.`);
+      if (args.length !== 1) return error('Usage: open github | linkedin | substack');
+      if (!links.includes(args[0])) return error(`open: unknown link: ${args[0]}. Choose github, linkedin, or substack.`);
       return { output: { type: 'link', target: args[0] } };
     case 'sudo':
-      return text('Nice try. You already have everything you need here. Type help to explore.');
+      return text('visitor is not in the sudoers file. This incident will be reported.');
     default:
       return error(`${command}: command not found. Type help to see what is available.`);
   }

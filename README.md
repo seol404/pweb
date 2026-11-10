@@ -35,7 +35,7 @@ Try these commands inside the website:
 | `cd /experience`, `cd ..`, `cd` | Change directory, go up, or return home. |
 | `pwd` | Print the current virtual path. |
 | `whoami`, `neofetch` | Show the introduction or system-style profile. |
-| `open github`, `open linkedin`, `open resume`, `open email` | Display a clickable destination link. |
+| `open github`, `open linkedin`, `open substack` | Display a clickable destination link. |
 | `theme light`, `theme dark` | Change the color theme. |
 | `history`, `clear`, `date`, `echo hello`, `help` | Recall commands, clear output, show time, print text, or view help. |
 
@@ -43,7 +43,7 @@ Relative paths, `~`, `..`, quoted arguments, and `ls -a`, `ls -l`, and `ls -la` 
 
 While the command input is focused, **Tab** completes nonempty input or shows matching suggestions; **↑/↓** recall command history; **Ctrl+L** clears the terminal; **Ctrl+C** clears the current input when no text is selected. **Ctrl/Cmd+K** focuses the prompt from elsewhere on the page. Empty-input Tab and Shift+Tab retain normal keyboard navigation.
 
-Edit biography, roles, projects, skills, and education in [`src/content.js`](src/content.js). The UI is in [`src/App.jsx`](src/App.jsx), styling in [`src/App.css`](src/App.css), and virtual-shell behavior in [`src/terminal.js`](src/terminal.js). Replace [`public/resume.pdf`](public/resume.pdf) to update the downloadable résumé. The supplied PDF includes the original phone number; the website’s displayed contact information omits it.
+Edit biography, roles, projects, skills, and education in [`src/content.js`](src/content.js). The UI is in [`src/App.jsx`](src/App.jsx), styling in [`src/App.css`](src/App.css), and virtual-shell behavior in [`src/terminal.js`](src/terminal.js).
 
 Run the shell tests and browser tests from `terminal-portfolio/`:
 

@@ -3,12 +3,12 @@
 export const profile = {
   name: 'Christina Lee',
   fullName: 'Seohyeon (Christina) Lee',
-  email: 'seohyeon7426@gmail.com',
   github: 'https://github.com/seol404',
   linkedin: 'https://www.linkedin.com/in/christinaseohyeonlee/',
+  substack: 'https://substack.com/@chrixtinalee',
   location: 'Austin, TX',
   intro:
-    'I’m Christina, a computer science student at UT Austin focused on security. I build tools that find vulnerabilities, automate detection, and make systems safer—from cloud infrastructure and application security to the operating system underneath it all.',
+    'I study computer science at UT Austin with a concentration in security. Right now I’m a security software engineer intern at Cloudflare, working on vulnerability scanning infrastructure. Before that I did product security at Bloomberg and threat hunting at CrowdStrike.',
   university: 'The University of Texas at Austin',
   degree: 'B.S. in Computer Science · Security concentration',
 };
@@ -21,13 +21,13 @@ export const experiences = [
     period: 'Sep. 2026 — Present',
     location: 'Austin, TX',
     current: true,
-    summary: 'Cloud security, vulnerability management, and infrastructure automation.',
+    summary: 'Vulnerability scanning infrastructure on GCP and Kubernetes',
     highlights: [
       'Built infrastructure-as-code for a distributed vulnerability-scanning platform, automating provisioning and least-privilege access across cloud scanners, Kubernetes, and segmented networks.',
       'Connected scanner provisioning, private-network routing, authenticated scanning, and asset inventory into an end-to-end vulnerability-management workflow.',
       'Developed Python-based Prowler checks for GCP security risks, with a version-controlled pipeline for testing, validating, and deploying checks and metadata.',
     ],
-    technologies: ['Python', 'Terraform', 'Ansible', 'Kubernetes', 'GCP', 'Prowler'],
+    technologies: ['Python', 'Terraform', 'Kubernetes', 'GCP', 'Prowler'],
   },
   {
     id: 'bloomberg',
@@ -36,7 +36,7 @@ export const experiences = [
     period: 'Jun. 2026 — Aug. 2026',
     location: 'New York, NY',
     current: false,
-    summary: 'Application security, threat modeling, and detection at scale.',
+    summary: 'Static analysis and web application security',
     highlights: [
       'Developed CodeQL queries for TypeScript and applied Semgrep to Python repositories to detect vulnerabilities across 10,000+ internal codebases.',
       'Identified and reported 5+ web application vulnerabilities, including critical authentication and privilege-escalation issues, and led STRIDE-based threat modeling.',
@@ -51,7 +51,7 @@ export const experiences = [
     period: 'Jun. 2025 — Aug. 2025',
     location: 'San Antonio, TX',
     current: false,
-    summary: 'Threat hunting, incident response, and automated remediation.',
+    summary: 'Threat hunting and incident response for Falcon Complete',
     highlights: [
       'Automated Chromstera adware detection and remediation with Falcon Fusion SOAR and PowerShell, saving 30+ minutes of analyst triage per detection.',
       'Developed and deployed two Falcon Query Language detection rules, each achieving a 95%+ true positive rate.',
@@ -66,24 +66,26 @@ export const projects = [
     id: 'vulnerability-pipeline',
     name: 'Vulnerability Detection Dataset & CPG Pipeline',
     period: 'Feb. 2026',
-    summary: 'Turning vulnerable source code into structured data for detection models.',
+    summary: 'A labeled memory-leak dataset for vulnerability detection models',
     highlights: [
       'Built a Joern pipeline to extract and label 250+ method-level vulnerability samples from the Juliet Test Suite for CWE-401 memory leak detection.',
       'Wrote Python tooling for parsing, label generation, and preprocessing code property graphs for downstream detection models.',
     ],
     technologies: ['Python', 'Joern', 'Juliet', 'Code property graphs'],
   },
-  {
-    id: 'pintos',
-    name: 'PintOS',
-    period: 'Apr. 2025',
-    summary: 'Building the internals of an operating system in C on x86.',
-    highlights: [
-      'Implemented kernel components spanning scheduling, system calls, virtual memory, and the file system.',
-      'Built synchronization primitives, demand paging, and a buffer cache with inode management; validated multithreaded workloads with QEMU and GDB.',
-    ],
-    technologies: ['C', 'x86', 'GDB', 'QEMU'],
-  },
+  // Hidden for now; uncomment to show it again.
+  // {
+  //   id: 'interview-mock-event-journal',
+  //   name: 'Interview Mock: Event Journal',
+  //   period: 'Oct. 2026',
+  //   url: 'https://github.com/seol404/interview-mock-event-journal',
+  //   summary: 'A practice repo for AI-assisted coding interviews',
+  //   highlights: [
+  //     'Dependency-free, in-memory event journal with a written API contract for ordering, pagination, and deep-snapshot data ownership.',
+  //     'Includes a seeded bug report to debug with an agent, plus three feature-extension rounds (time-window queries, category summaries, cursor pagination) with acceptance criteria.',
+  //   ],
+  //   technologies: ['JavaScript', 'Node.js', 'AI-assisted development'],
+  // },
 ];
 
 export const skills = [
@@ -93,7 +95,7 @@ export const skills = [
   },
   {
     name: 'Infrastructure & development',
-    items: ['Linux', 'Git', 'Docker', 'Kubernetes', 'Terraform', 'Ansible', 'GCP', 'AWS', 'Windows'],
+    items: ['Linux', 'Git', 'Docker', 'Kubernetes', 'Terraform', 'GCP', 'AWS', 'Windows'],
   },
   {
     name: 'Application & cloud security',
@@ -123,3 +125,46 @@ export const education = {
     'Cloud Computing',
   ],
 };
+
+export const leadership = [
+  {
+    id: 'wicys',
+    organization: 'WiCyS Austin Chapter',
+    role: 'Co-founder, President',
+    period: '2024 — Present',
+  },
+  {
+    id: 'isss',
+    organization: 'Information Systems & Security Society (ISSS)',
+    role: 'Logistics',
+    period: '2024 — 2025',
+  },
+  {
+    id: 'hash',
+    organization: 'HASH (HASH Association of Student Hackers)',
+    role: 'Linux Specialist',
+    period: '2024',
+  },
+];
+
+export const hobbies = [
+  { name: 'Speed ice skating' },
+  { name: 'Running' },
+  { name: 'Singing' },
+  { name: 'Minesweeper' },
+  { name: 'Art', detail: 'Main media: color pencils, watercolor, and oil pastels', gallery: true },
+];
+
+// Cropped from the owner's art portfolio PDF. Files live in public/art/<id>.webp and <id>-thumb.webp.
+export const artworks = [
+  { id: '01', width: 1092, height: 1376, alt: 'A dog wading in a creek' },
+  { id: '02', width: 1092, height: 902, alt: 'A horse and rider with a coiled lasso, seen from above' },
+  { id: '03', width: 1092, height: 858, alt: 'A longhorn standing in a green field' },
+  { id: '04', width: 1092, height: 860, alt: 'Cattle resting behind a fence' },
+  { id: '05', width: 1092, height: 1420, alt: 'A child in a white hat' },
+  { id: '06', width: 984, height: 1452, alt: 'Two sleeping figures surrounded by flowers and fruit' },
+  { id: '07', width: 957, height: 1452, alt: 'A pink magnolia blossom' },
+  { id: '08', width: 1062, height: 756, alt: 'Dark wine bottles with green pears' },
+  { id: '09', width: 1021, height: 1452, alt: 'Pink cyclamen flowers with green leaves' },
+  { id: '10', width: 1092, height: 796, alt: 'Two pears on a table' },
+];

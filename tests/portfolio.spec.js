@@ -43,12 +43,12 @@ test('relative paths use the changed working directory', async ({ page }) => {
   await command(page, 'pwd');
   await expect(outputFor(page)).toContainText('/projects');
   await command(page, 'ls');
-  await expect(outputFor(page)).toContainText('PintOS');
+  await expect(outputFor(page)).toContainText('Vulnerability Detection');
   await command(page, 'cat ../education/README.md');
   await expect(outputFor(page)).toContainText('Bachelor of Science in Computer Science');
   await command(page, 'cd ..');
   await command(page, 'ls');
-  await expect(outputFor(page)).toContainText('resume.pdf');
+  await expect(outputFor(page)).toContainText('README.md');
 });
 
 test('history, tab completion, and clear keep the prompt usable', async ({ page }) => {
@@ -80,7 +80,7 @@ test('unknown commands and invalid paths recover gracefully', async ({ page }) =
   await command(page, 'help');
   await expect(outputFor(page)).toContainText('cd [path]');
   await command(page, 'ls /projects');
-  await expect(outputFor(page)).toContainText('PintOS');
+  await expect(outputFor(page)).toContainText('Vulnerability Detection');
 });
 
 test('ambiguous completions can be chosen and dismissed with the keyboard', async ({ page }) => {
@@ -123,17 +123,14 @@ test('theme selection persists across reloads', async ({ page }) => {
   await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
 });
 
-test('contact links and downloadable resume point to the supplied profile', async ({ page, request }) => {
+test('contact links point to the supplied profile', async ({ page }) => {
   await command(page, 'ls /contact');
   const output = outputFor(page);
-  await expect(output.locator('a[href="mailto:seohyeon7426@gmail.com"]')).toBeVisible();
+  await expect(output.locator('a[href^="mailto:"]')).toHaveCount(0);
   await expect(output.locator('a[href="https://github.com/seol404"]')).toBeVisible();
   await expect(output.locator('a[href="https://www.linkedin.com/in/christinaseohyeonlee/"]')).toBeVisible();
-  await command(page, 'open resume');
-  await expect(output.locator('a[href$="resume.pdf"]').last()).toBeVisible();
-  const resume = await request.get('/resume.pdf');
-  expect(resume.ok()).toBeTruthy();
-  expect(resume.headers()['content-type']).toContain('application/pdf');
+  await expect(output.locator('a[href="https://substack.com/@chrixtinalee"]')).toBeVisible();
+  await expect(output.locator('a[href*="resume"]')).toHaveCount(0);
 });
 
 test('sidebar navigation works without typing', async ({ page }) => {
@@ -143,6 +140,57 @@ test('sidebar navigation works without typing', async ({ page }) => {
   await expect(outputFor(page)).toContainText('Python');
 });
 
+test('clicking a section already in the log jumps to it instead of repeating it', async ({ page }) => {
+  const experience = page.getByRole('button', { name: 'Open /experience', exact: true });
+  const headings = outputFor(page).getByRole('heading', { name: 'Experience', exact: true });
+  await experience.click();
+  await experience.click();
+  await expect(headings).toHaveCount(1);
+  await expect(experience).toHaveAttribute('aria-current', 'page');
+  await page.getByRole('button', { name: 'Open /skills', exact: true }).click();
+  await experience.click();
+  await expect(headings).toHaveCount(1);
+  await expect(headings).toBeInViewport();
+  await command(page, 'ls /experience');
+  await expect(headings).toHaveCount(2);
+});
+
+test('leadership and the art portfolio are reachable', async ({ page, request }) => {
+  await command(page, 'ls /leadership');
+  for (const group of ['WiCyS Austin Chapter', 'Information Systems & Security Society', 'HASH Association of Student Hackers']) {
+    await expect(outputFor(page)).toContainText(group);
+  }
+  await command(page, 'ls /hobbies');
+  await expect(outputFor(page)).toContainText('watercolor');
+  await outputFor(page).getByRole('button', { name: 'View 10 pieces' }).click();
+  const gallery = page.getByRole('dialog', { name: 'Art gallery' });
+  await expect(gallery).toBeVisible();
+  await expect(gallery).toContainText('1 of 10');
+  await expect(gallery.getByRole('img', { name: 'A dog wading in a creek' })).toBeVisible();
+  await gallery.press('ArrowRight');
+  await expect(gallery).toContainText('2 of 10');
+  await gallery.getByRole('button', { name: 'Show piece 5' }).click();
+  await expect(gallery).toContainText('5 of 10');
+  await gallery.getByRole('button', { name: 'Next piece' }).click();
+  await expect(gallery).toContainText('6 of 10');
+  await page.keyboard.press('Escape');
+  await expect(gallery).not.toBeVisible();
+  const art = await request.get('/art/01.webp');
+  expect(art.headers()['content-type']).toContain('image/webp');
+});
+
+test('scrolling the terminal highlights the section in view', async ({ page }) => {
+  await command(page, 'ls /experience');
+  await command(page, 'ls /skills');
+  const scrollTo = (selector) => outputFor(page).evaluate((element, target) => {
+    element.scrollTop = target ? element.querySelector(target).offsetTop : element.scrollHeight;
+  }, selector);
+  await scrollTo('[data-section="experience"]');
+  await expect(page.getByRole('button', { name: 'Open /experience', exact: true })).toHaveAttribute('aria-current', 'page');
+  await scrollTo(null);
+  await expect(page.getByRole('button', { name: 'Open /skills', exact: true })).toHaveAttribute('aria-current', 'page');
+});
+
 test('mobile navigation and terminal stay within the viewport @mobile', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   const experience = page.getByRole('button', { name: 'Open /experience', exact: true });
@@ -150,9 +198,9 @@ test('mobile navigation and terminal stay within the viewport @mobile', async ({
     await page.getByRole('button', { name: 'Toggle file explorer', exact: true }).click();
   }
   await experience.click();
-  await expect(outputFor(page)).toContainText('Cloudflare');
+  await expect(outputFor(page).getByRole('heading', { name: 'Experience', exact: true })).toBeVisible();
   await command(page, 'ls /projects');
-  await expect(outputFor(page)).toContainText('PintOS');
+  await expect(outputFor(page)).toContainText('Vulnerability Detection');
   await command(page, 'echo <script>alert(1)</script>');
   await expect(outputFor(page)).toContainText('<script>alert(1)</script>');
   const overflow = await page.evaluate(() => document.documentElement.scrollWidth > window.innerWidth);
