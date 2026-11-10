@@ -31,3 +31,6 @@ yarn-error.log*
 .env
 .env.*
 
+
+# local agent handoff notes; kept out of the repo
+AGENTS.md

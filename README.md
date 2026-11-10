@@ -62,7 +62,6 @@ In the art gallery, **←/→** move between pieces and **Esc** closes it.
 | `src/fonts/` | Departure Mono by Helena Zhang (SIL OFL 1.1). It's crisp only at multiples of 11px |
 | `public/art/` | The 10 artworks (`NN.webp`) and their thumbnails (`NN-thumb.webp`) |
 | `public/_headers` | Security headers (strict CSP) and caching |
-| `AGENTS.md` | Handoff notes and design rules for coding agents |
 
 ## Tests
 
