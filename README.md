@@ -1,6 +1,6 @@
 # pweb
 
-Christina Lee's portfolio, built to look like a Linux terminal session. Visitors can type commands into a small virtual shell or click folders in the file explorer. The site is fully static: the shell only navigates portfolio content in the browser and never runs real commands.
+My ai-slopped (i spent some time unslopping and giving it some personality afterwards..i hope you can see the efforts) terminal-themed portfolio website!
 
 Built with React 19 and Vite 7, with plain CSS and no backend.
 
