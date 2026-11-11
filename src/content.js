@@ -148,10 +148,10 @@ export const leadership = [
 ];
 
 export const hobbies = [
-  { name: 'Speed ice skating' },
-  { name: 'Running' },
-  { name: 'Singing' },
-  { name: 'Minesweeper' },
+  { name: 'Journaling, taking notes' },
+  { name: 'Any cardio / endurance sports - Ice skating, running, walking, swimming' },
+  { name: 'Music - discovering new music (r&b + miami bass), singing' },
+  { name: 'Brain teasers enjoyer - Linkedin queens, patches, zip, minesweeper, sets, zetamac...' },
   { name: 'Art', detail: 'Main media: color pencils, watercolor, and oil pastels', gallery: true },
 ];
 
